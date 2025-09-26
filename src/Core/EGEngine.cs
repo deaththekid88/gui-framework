@@ -38,20 +38,19 @@ public class EGEngine : EZEngine
         base.Update(deltaTime);
     }
 
-    protected override void Render(float alpha)
+    protected override void Render()
     {
-        base.Render(alpha);
+        base.Render();
     }
 
-    protected override void UIRender(float alpha)
+    protected override void UIRender()
     {
-        base.UIRender(alpha);
+        base.UIRender();
     }
 
     protected override void OnRun()
     {
-        base.OnRun();
-        //_backend.Run();
+        _backend.Run();
     }
     
     private void ResizedWindow(float width, float height)
