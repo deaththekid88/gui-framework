@@ -28,29 +28,42 @@ public class EGEngine : EZEngine
 
     }
 
-    public override void Initialize()
+    public abstract void Initialize()
     {
 
+    }
+
+    public override void Run()
+    {
+        Initialize(); // 중복 호출 방지
+        
+        Thread engineThread = new Thread(() =>
+        {
+            base.Run(); // 고정된 FPS로 module 호출
+        });
+        engineThread.IsBackground = true;
+        engineThread.Start();
+
+        _backend?.Run(); // OpenTK GameWindow의 VSync에 따라 렌더링 루프 실행
     }
 
     protected override void Update(float deltaTime)
     {
         base.Update(deltaTime);
+
+        /*shader update*/
     }
 
     protected override void Render()
     {
         base.Render();
+
+        /*shader render*/
     }
 
-    protected override void UIRender()
+    private void UIRender()
     {
-        base.UIRender();
-    }
-
-    protected override void OnRun()
-    {
-        _backend.Run();
+        
     }
     
     private void ResizedWindow(float width, float height)
