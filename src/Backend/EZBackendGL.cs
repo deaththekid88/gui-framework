@@ -10,7 +10,10 @@ public class EZBackendGL : EZBackend
     public EZBackendGL(NativeWindowSettings nativeWindowSettings, Updater updater, Renderer renderer, UIRenderer uiRenderer, ResizedWindow resizedWindow)
         : base(nativeWindowSettings, updater, renderer, uiRenderer, resizedWindow)
     {
-        
+        _updater = updater;
+        _renderer = renderer;
+        _uiRenderer = uiRenderer;
+        _resizedWindow = resizedWindow;
     }
 
     protected override void OnLoad()
@@ -40,7 +43,8 @@ public class EZBackendGL : EZBackend
         base.OnRenderFrame(args);
 
         BeginFrame();
-        // ... Render 모듈 실행 or EventBus.Publish(RenderEvent)
+        _renderer();
+        _uiRenderer();
         EndFrame();
 
         Context.SwapBuffers(); // ✅ 보통 여기서 호출
